@@ -11,11 +11,21 @@ h1 {
   width: 150px;
 }
 
+.ilvl {
+  width: 50px;
+}
+
+.ilvl-weapon {
+  width: 150px;
+}
+
 .row {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
+
+
 
 table {
   border: 1px solid black;

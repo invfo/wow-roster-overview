@@ -74,6 +74,65 @@ var roster = {
   'roster-mage': rosterMage
 };
 
+
+// manage EN and FR
+
+var translations = {
+  'player': {
+    'en': 'Player',
+    'fr': 'Joueur'},
+  'ilvl': {
+    'en': 'ILVL',
+    'fr': 'ILVL'
+  },
+  'ilvl-weapon': {
+    'en': 'Weapon ILVL',
+    'fr': 'ILVL arme'
+  },
+  'relic-1': {
+    'en': 'Relic 1',
+    'fr': 'Rélique 1'
+  },
+  'relic-2': {
+    'en': 'Relic 1',
+    'fr': 'Rélique 1'
+  },
+  'relic-3': {
+    'en': 'Relic 3',
+    'fr': 'Rélique 3'
+  }
+}
+
+var langButtonLabel = {
+  'en': 'Passer en FR',
+  'fr': 'Switch to EN'
+};
+
+function translate(lang) {
+  console.log('translate to ' + lang);
+  Object.keys(translations).forEach(function(label){
+    var elts = document.getElementsByClassName(label);
+    for (var i = 0; i < elts.length; i++) {
+      var elt = elts[i];
+      console.log('old: ' + elt.textContent);
+      elt.textContent = translations[label][lang];
+      console.log('new: ' + elt.textContent);
+    }
+  });
+}
+
+var lang = 'fr'; //default language
+var langButton = document.getElementById('change-language');
+langButton.textContent = langButtonLabel[lang];
+
+langButton.addEventListener('click', function(event){
+  lang = (lang == 'fr') ? 'en' : 'fr'
+  translate(lang);
+  langButton.textContent = langButtonLabel[lang];
+});
+
+//
+
 function addTableCell(value, row) {
   var cellElt = document.createElement('td')
   cellElt.textContent = value;
