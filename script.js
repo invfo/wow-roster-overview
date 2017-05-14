@@ -145,6 +145,14 @@ Object.keys(roster).forEach(function(rosterType) {
   for (var i = 0; i < rosterPlayers.length; i++) {
     var player = rosterPlayers[i];
 
+    var playerRow = document.createElement('tr');
+    playerRow.id = player;
+    var nameCell = document.createElement('td');
+    nameCell.textContent = player;
+    playerRow.appendChild(nameCell);
+    document.getElementById(rosterType).appendChild(playerRow);
+
+
     var requestURL = 'https://eu.api.battle.net/wow/character/' + server + '/' + player +
                     '?fields=items&locale=en_GB&apikey=' + apiKey;
     var request = new XMLHttpRequest();
@@ -172,17 +180,15 @@ Object.keys(roster).forEach(function(rosterType) {
           }
 
           var tableElt = document.getElementById(rosterType);
-          var playerRow = document.createElement('tr');
+          var playerRow = document.getElementById(name);
           playerRow.classList.add(classes[charClass]);
 
-          addTableCell(name, playerRow);
           addTableCell(ilvlEquipped, playerRow);
           addTableCell(ilvlWeapon, playerRow);
           addTableCell(relicsIlvls[0], playerRow);
           addTableCell(relicsIlvls[1], playerRow);
           addTableCell(relicsIlvls[2], playerRow);
 
-          tableElt.appendChild(playerRow);
         }
       }
     };
