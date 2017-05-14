@@ -7,6 +7,10 @@ h1 {
   flex-direction: column;
 }
 
+.player {
+  width: 150px;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -17,6 +21,8 @@ table {
   border: 1px solid black;
   width: 600px;
   margin-bottom: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 td {
