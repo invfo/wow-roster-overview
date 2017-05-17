@@ -138,10 +138,24 @@ langButton.addEventListener('click', function(event){
 
 //
 
-function addTableCell(value, row) {
-  var cellElt = document.createElement('td')
-  cellElt.textContent = value;
-  row.appendChild(cellElt);
+function addEmptyCell(row, cl) {
+  var cell = document.createElement('td');
+  cell.classList.add(cl);
+  row.appendChild(cell);
+}
+
+function getElementByXpath(path) {
+  return document.evaluate(path, document, null,
+    XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+}
+
+function createXpath(name, cl) {
+  return "//tr[@id='" + name + "']/td[@class='" + cl + "']";
+}
+
+function updateCell(name, cl, value) {
+  var elt = getElementByXpath(createXpath(name, cl));
+  elt.textContent = value;
 }
 
 
@@ -152,9 +166,18 @@ Object.keys(roster).forEach(function(rosterType) {
 
     var playerRow = document.createElement('tr');
     playerRow.id = player;
-    var nameCell = document.createElement('td');
-    nameCell.textContent = player;
-    playerRow.appendChild(nameCell);
+
+    var cell = document.createElement('td');
+    cell.textContent = player;
+    playerRow.appendChild(cell);
+
+    var stats = ['ilvl', 'ilvl-weapon', 'weapon-traits',
+                  'relic-1', 'relic-2', 'relic-3'];
+    for (var j = 0; j < stats.length; j++) {
+      addEmptyCell(playerRow, stats[j]);
+    }
+
+
     document.getElementById(rosterType).appendChild(playerRow);
 
 
@@ -198,13 +221,13 @@ Object.keys(roster).forEach(function(rosterType) {
           var playerRow = document.getElementById(name);
           playerRow.classList.add(classes[charClass]);
 
-          addTableCell(ilvlEquipped, playerRow);
-          addTableCell(ilvlWeapon, playerRow);
-          addTableCell(artifactTraitLvl, playerRow);
-          addTableCell(relicsIlvls[0], playerRow);
-          addTableCell(relicsIlvls[1], playerRow);
-          addTableCell(relicsIlvls[2], playerRow);
 
+          updateCell(name, 'ilvl', ilvlEquipped);
+          updateCell(name, 'ilvl-weapon', ilvlWeapon);
+          updateCell(name, 'weapon-traits', artifactTraitLvl);
+          updateCell(name, 'relic-1', relicsIlvls[0]);
+          updateCell(name, 'relic-2', relicsIlvls[1]);
+          updateCell(name, 'relic-3', relicsIlvls[2]);
         }
       }
     };
