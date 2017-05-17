@@ -126,6 +126,7 @@ function translate(lang) {
 }
 
 var lang = 'fr'; //default language
+translate(lang);
 var langButton = document.getElementById('change-language');
 langButton.textContent = langButtonLabel[lang];
 
