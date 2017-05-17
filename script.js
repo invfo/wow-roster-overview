@@ -98,8 +98,8 @@ var translations = {
     'fr': 'Rélique 1'
   },
   'relic-2': {
-    'en': 'Relic 1',
-    'fr': 'Rélique 1'
+    'en': 'Relic 2',
+    'fr': 'Rélique 2'
   },
   'relic-3': {
     'en': 'Relic 3',
@@ -118,9 +118,12 @@ function translate(lang) {
     var elts = document.getElementsByClassName(label);
     for (var i = 0; i < elts.length; i++) {
       var elt = elts[i];
-      console.log('old: ' + elt.textContent);
-      elt.textContent = translations[label][lang];
-      console.log('new: ' + elt.textContent);
+      console.log(elt.tagName);
+      if (elt.tagName == 'TH') {
+        console.log('old: ' + elt.textContent);
+        elt.textContent = translations[label][lang];
+        console.log('new: ' + elt.textContent);
+      }
     }
   });
 }
@@ -226,8 +229,8 @@ Object.keys(roster).forEach(function(rosterType) {
             {'ilvl-weapon': ilvlWeapon},
             {'weapon-traits': artifactTraitLvl},
             {'relic-1': relicsIlvls[0]},
-            {'relic-1': relicsIlvls[1]},
-            {'relic-1': relicsIlvls[2]}
+            {'relic-2': relicsIlvls[1]},
+            {'relic-3': relicsIlvls[2]}
           ];
 
           for (var j = 0; j < statValues.length; j++) {
