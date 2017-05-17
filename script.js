@@ -173,6 +173,10 @@ Object.keys(roster).forEach(function(rosterType) {
 
           var weapon = items.mainHand;
 
+          if (weapon.artifactTraits.length == 0) {
+            weapon = items.offHand;
+          }
+
           var traits = weapon.artifactTraits;
           var artifactTraitLvl = -3;
           for (var j = 0; j < traits.length; j++) {
