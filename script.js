@@ -89,6 +89,10 @@ var translations = {
     'en': 'Weapon ILVL',
     'fr': 'ILVL arme'
   },
+  'weapon-traits': {
+    'en': 'Weapon traits',
+    'fr': 'Rang d\'arme'
+  },
   'relic-1': {
     'en': 'Relic 1',
     'fr': 'Rélique 1'
@@ -161,7 +165,6 @@ Object.keys(roster).forEach(function(rosterType) {
       if (this.readyState === XMLHttpRequest.DONE) {
         if (this.status === 200) {
           var data = JSON.parse(this.responseText);
-
           var name = data.name;
           var charClass = data.class;
 
@@ -169,6 +172,13 @@ Object.keys(roster).forEach(function(rosterType) {
           var ilvlEquipped = items.averageItemLevelEquipped;
 
           var weapon = items.mainHand;
+
+          var traits = weapon.artifactTraits;
+          var artifactTraitLvl = -3;
+          for (var j = 0; j < traits.length; j++) {
+            artifactTraitLvl += traits[j].rank;
+          }
+
           var ilvlWeapon = weapon.itemLevel;
           var relics = weapon.relics;
 
@@ -185,6 +195,7 @@ Object.keys(roster).forEach(function(rosterType) {
 
           addTableCell(ilvlEquipped, playerRow);
           addTableCell(ilvlWeapon, playerRow);
+          addTableCell(artifactTraitLvl, playerRow);
           addTableCell(relicsIlvls[0], playerRow);
           addTableCell(relicsIlvls[1], playerRow);
           addTableCell(relicsIlvls[2], playerRow);
