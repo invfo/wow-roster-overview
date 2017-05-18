@@ -119,7 +119,7 @@ var langButtonLabel = {
 function translate(lang) {
   console.log('translate to ' + lang);
   Object.keys(translations).forEach(function(label){
-    var elts = document.getElementsByClassName(label);
+    var elts = $('.' + label);
     for (var i = 0; i < elts.length; i++) {
       var elt = elts[i];
       console.log(elt.tagName);
@@ -134,13 +134,13 @@ function translate(lang) {
 
 var lang = 'fr'; //default language
 translate(lang);
-var langButton = document.getElementById('change-language');
-langButton.textContent = langButtonLabel[lang];
 
-langButton.addEventListener('click', function(event){
+var langButton = $('#change-language')
+langButton.html(langButtonLabel[lang]);
+langButton.on('mouseup', function(event){
   lang = (lang == 'fr') ? 'en' : 'fr'
   translate(lang);
-  langButton.textContent = langButtonLabel[lang];
+  langButton.html(langButtonLabel[lang]);
 });
 
 //
@@ -151,18 +151,8 @@ function addEmptyCell(row, cl) {
   row.appendChild(cell);
 }
 
-function getElementByXpath(path) {
-  return document.evaluate(path, document, null,
-    XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-}
-
-function createXpath(name, cl) {
-  return "//tr[@id='" + name + "']/td[@class='" + cl + "']";
-}
-
 function updateCell(name, cl, value) {
-  var elt = getElementByXpath(createXpath(name, cl));
-  elt.textContent = value;
+  $('#' + name + ' td.' + cl).text(value);
 }
 
 
@@ -213,7 +203,7 @@ Object.keys(roster).forEach(function(rosterType) {
           for (var j = 0; j < traits.length; j++) {
             artifactTraitLvl += traits[j].rank;
           }
-
+          
           var ilvlWeapon = weapon.itemLevel;
           var relics = weapon.relics;
 
@@ -224,7 +214,7 @@ Object.keys(roster).forEach(function(rosterType) {
             relicsIlvls.push(relicIlvl);
           }
 
-          var tableElt = document.getElementById(rosterType);
+          var tableElt = $('#' + rosterType);
           var playerRow = document.getElementById(name);
           playerRow.classList.add(classes[charClass]);
 
