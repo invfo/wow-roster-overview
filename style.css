@@ -2,6 +2,10 @@ h1 {
   text-align: center;
 }
 
+body {
+  font-family: 'Cuprum', serif;
+}
+
 #container {
   display: flex;
   flex-direction: column;
