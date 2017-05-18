@@ -94,16 +94,20 @@ var translations = {
     'fr': 'Rang d\'arme'
   },
   'relic-1': {
-    'en': 'Relic 1',
-    'fr': 'Rélique 1'
+    'en': '1',
+    'fr': '1'
   },
   'relic-2': {
-    'en': 'Relic 2',
-    'fr': 'Rélique 2'
+    'en': '2',
+    'fr': '2'
   },
   'relic-3': {
-    'en': 'Relic 3',
-    'fr': 'Rélique 3'
+    'en': '3',
+    'fr': '3'
+  },
+  'relics': {
+    'en': 'Relics',
+    'fr': 'Réliques'
   }
 }
 

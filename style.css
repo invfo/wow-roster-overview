@@ -19,6 +19,10 @@ h1 {
   width: 120px;
 }
 
+.weapon-traits {
+  width: 120px;
+}
+
 .row {
   display: flex;
   flex-direction: row;
