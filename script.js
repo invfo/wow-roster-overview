@@ -214,21 +214,25 @@ Object.keys(roster).forEach(function(rosterType) {
           var playerRow = document.getElementById(name);
           playerRow.classList.add(classes[charClass]);
 
-          var statValues = [
-            {'ilvl': ilvlEquipped},
-            {'ilvl-weapon': ilvlWeapon},
-            {'weapon-traits': artifactTraitLvl},
-            {'relic-1': relicsIlvls[0]},
-            {'relic-2': relicsIlvls[1]},
-            {'relic-3': relicsIlvls[2]}
-          ];
+          var statValues = {
+            'ilvl': ilvlEquipped,
+            'ilvl-weapon': ilvlWeapon,
+            'weapon-traits': artifactTraitLvl,
+            'relic-1': relicsIlvls[0],
+            'relic-2': relicsIlvls[1],
+            'relic-3': relicsIlvls[2]
+          };
 
+          for (var key in statValues) {
+            updateCell(name, key, statValues[key]);
+          }
+          /*
           for (var j = 0; j < statValues.length; j++) {
             var stat = statValues[j]
             var statName = Object.keys(stat)[0];
             var statValue = stat[statName];
             updateCell(name, statName, statValue);
-          }
+          }*/
         }
       }
     };
