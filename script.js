@@ -117,16 +117,12 @@ var langButtonLabel = {
 };
 
 function translate(lang) {
-  console.log('translate to ' + lang);
   Object.keys(translations).forEach(function(label){
     var elts = $('.' + label);
     for (var i = 0; i < elts.length; i++) {
       var elt = elts[i];
-      console.log(elt.tagName);
       if (elt.tagName == 'TH') {
-        console.log('old: ' + elt.textContent);
         elt.textContent = translations[label][lang];
-        console.log('new: ' + elt.textContent);
       }
     }
   });
@@ -203,7 +199,7 @@ Object.keys(roster).forEach(function(rosterType) {
           for (var j = 0; j < traits.length; j++) {
             artifactTraitLvl += traits[j].rank;
           }
-          
+
           var ilvlWeapon = weapon.itemLevel;
           var relics = weapon.relics;
 
