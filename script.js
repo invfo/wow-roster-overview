@@ -15,7 +15,7 @@ var classes = {
   10: 'monk',
   11: 'druid',
   12: 'demon-hunter'
-}
+};
 
 var rosterTank = [
       'Jaburã',
@@ -167,8 +167,8 @@ for (var l = 0; l < sortable.length; l++)
           return first[sortVar] - second[sortVar];
         });
       }
-      
-      var children = document.getElementById(roster_).childNodes;
+
+      var children = $('#' + roster_).children();
       for (var i = 0; i < rosterList.length; i++) {
         var info = rosterList[i];
         var playerRow = document.createElement('tr');
@@ -182,7 +182,7 @@ for (var l = 0; l < sortable.length; l++)
           cell.textContent = info[stats[k]];
           playerRow.appendChild(cell);
         }
-        document.getElementById(roster_).replaceChild(playerRow, children[i+2]);
+        $('#' + roster_).children().eq(i+1).replaceWith(playerRow);
       }
     });
   }
@@ -266,8 +266,8 @@ Object.keys(roster).forEach(function(rosterType) {
           }
 
           var tableElt = $('#' + rosterType);
-          var playerRow = document.getElementById(name);
-          playerRow.classList.add(classes[charClass]);
+          var playerRow = $('#' + name);
+          playerRow.addClass(classes[charClass]);
 
           var statValues = {
             'ilvl': ilvlEquipped,
