@@ -74,6 +74,15 @@ var roster = {
   'roster-mage': rosterMage
 };
 
+var rosterInfo = {
+  'roster-tank': [],
+  'roster-heal': [],
+  'roster-cac': [],
+  'roster-mage': []
+};
+
+var stats = ['ilvl', 'ilvl-weapon', 'weapon-traits',
+              'relic-1', 'relic-2', 'relic-3'];
 
 // manage EN and FR
 
@@ -139,6 +148,35 @@ langButton.on('mouseup', function(event){
   langButton.html(langButtonLabel[lang]);
 });
 
+var ilvlHeader = $('.ilvl');
+for (var j = 0; j < ilvlHeader.length; j++){
+  $(ilvlHeader[j]).on('mouseup', function(event){
+    var roster_ = $(event.target).parents("table").attr('id');
+    var rosterList = rosterInfo[roster_]
+
+    rosterList.sort(function(first, second){
+      return first.ilvl - second.ilvl;
+    });
+
+    var children = document.getElementById(roster_).childNodes;
+
+    for (var i = 0; i < rosterList.length; i++) {
+      var info = rosterList[i];
+      var playerRow = document.createElement('tr');
+      playerRow.id = info['player'];
+      playerRow.classList.add(info['charClass']);
+      var name = document.createElement('td');
+      name.textContent = info['player'];
+      playerRow.appendChild(name);
+      for (var k = 0; k < stats.length; k++) {
+        var cell = document.createElement('td');
+        cell.textContent = info[stats[k]];
+        playerRow.appendChild(cell);
+      }
+      document.getElementById(roster_).replaceChild(playerRow, children[i+2]);
+    }
+  });
+}
 //
 
 function addEmptyCell(row, cl) {
@@ -164,8 +202,6 @@ Object.keys(roster).forEach(function(rosterType) {
     cell.textContent = player;
     playerRow.appendChild(cell);
 
-    var stats = ['ilvl', 'ilvl-weapon', 'weapon-traits',
-                  'relic-1', 'relic-2', 'relic-3'];
     for (var j = 0; j < stats.length; j++) {
       addEmptyCell(playerRow, stats[j]);
     }
@@ -226,13 +262,10 @@ Object.keys(roster).forEach(function(rosterType) {
           for (var key in statValues) {
             updateCell(name, key, statValues[key]);
           }
-          /*
-          for (var j = 0; j < statValues.length; j++) {
-            var stat = statValues[j]
-            var statName = Object.keys(stat)[0];
-            var statValue = stat[statName];
-            updateCell(name, statName, statValue);
-          }*/
+
+          statValues.player = name;
+          statValues.charClass = classes[charClass];
+          rosterInfo[rosterType].push(statValues);
         }
       }
     };
