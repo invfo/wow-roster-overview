@@ -138,6 +138,66 @@ function translate(lang) {
   });
 }
 
+function addEmptyCell(row, cl) {
+  var cell = document.createElement('td');
+  cell.classList.add(cl);
+  row.appendChild(cell);
+}
+
+function updateCell(name, cl, value) {
+  $('#' + name + ' td.' + cl).text(value);
+}
+
+function calculateArtifactTraitLvl(weapon) {
+  var artifactTraitLvl;
+  if (weapon.artifactTraits.length != 0){
+    var traits = weapon.artifactTraits;
+    artifactTraitLvl = -3;
+    for (var j = 0; j < traits.length; j++) {
+      artifactTraitLvl += traits[j].rank;
+    }
+  } else {
+    artifactTraitLvl = 0;
+  }
+  return artifactTraitLvl;
+}
+
+function getRelicsIlvls(weapon) {
+  var relicsIlvls = [];
+  if (weapon.relics.length != 0) {
+    var relics = weapon.relics;
+    for (var j = 0; j < 3; j++) {
+      var relicIlvl = weapon.bonusLists[j+1] - 1472;
+      relicsIlvls.push(relicIlvl);
+    }
+  } else {
+    relicsIlvls = [0, 0, 0];
+  }
+  return relicsIlvls;
+}
+
+function addEmptyPlayerRow(player, rosterType) {
+  var playerRow = document.createElement('tr');
+  playerRow.id = player;
+  var cell = document.createElement('td');
+  cell.textContent = player;
+  playerRow.appendChild(cell);
+  for (var j = 0; j < stats.length; j++) {
+    addEmptyCell(playerRow, stats[j]);
+  }
+  document.getElementById(rosterType).appendChild(playerRow);
+}
+
+function getWeapon(items) {
+  var weapon = items.mainHand;
+  if (weapon.artifactAppearanceId != 0 && weapon.artifactTraits.length == 0) {
+    weapon = items.offHand;
+  }
+  return weapon;
+}
+
+$(function(){});
+
 var lang = 'fr'; //default language
 translate(lang);
 
@@ -189,83 +249,33 @@ for (var l = 0; l < sortable.length; l++)
 }
 
 
-function addEmptyCell(row, cl) {
-  var cell = document.createElement('td');
-  cell.classList.add(cl);
-  row.appendChild(cell);
-}
-
-function updateCell(name, cl, value) {
-  $('#' + name + ' td.' + cl).text(value);
-}
-
-
 Object.keys(roster).forEach(function(rosterType) {
   var rosterPlayers = roster[rosterType];
   for (var i = 0; i < rosterPlayers.length; i++) {
     var player = rosterPlayers[i];
+    addEmptyPlayerRow(player, rosterType);
 
-    var playerRow = document.createElement('tr');
-    playerRow.id = player;
-
-    var cell = document.createElement('td');
-    cell.textContent = player;
-    playerRow.appendChild(cell);
-
-    for (var j = 0; j < stats.length; j++) {
-      addEmptyCell(playerRow, stats[j]);
-    }
-
-
-    document.getElementById(rosterType).appendChild(playerRow);
-
-
-    var requestURL = 'https://eu.api.battle.net/wow/character/' + server + '/' + player +
-                    '?fields=items&locale=en_GB&apikey=' + apiKey;
+    var requestURL = 'https://eu.api.battle.net/wow/character/'
+                    + server + '/'
+                    + player +
+                    '?fields=items&locale=en_GB&apikey='
+                    + apiKey;
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function(event) {
       if (this.readyState === XMLHttpRequest.DONE) {
         if (this.status === 200) {
           var data = JSON.parse(this.responseText);
+
           var name = data.name;
           var charClass = data.class;
-
           var items = data.items;
           var ilvlEquipped = items.averageItemLevelEquipped;
-
-          var weapon = items.mainHand;
-
-          if (weapon.artifactAppearanceId != 0 && weapon.artifactTraits.length == 0) {
-            weapon = items.offHand;
-          }
-
-          var artifactTraitLvl;
-          if (weapon.artifactTraits.length != 0){
-            var traits = weapon.artifactTraits;
-            artifactTraitLvl = -3;
-            for (var j = 0; j < traits.length; j++) {
-              artifactTraitLvl += traits[j].rank;
-            }
-          } else {
-            artifactTraitLvl = 0;
-          }
-
+          var weapon = getWeapon(items);
+          var artifactTraitLvl = calculateArtifactTraitLvl(weapon);
           var ilvlWeapon = weapon.itemLevel;
+          var relicsIlvls = getRelicsIlvls(weapon);
 
-          var relicsIlvls = []
-
-          if (weapon.relics.length != 0) {
-            var relics = weapon.relics;
-            for (var j = 0; j < 3; j++) {
-              var relicIlvl = weapon.bonusLists[j+1] - 1472;
-              relicsIlvls.push(relicIlvl);
-            }
-          } else {
-            relicsIlvls = [0, 0, 0]
-          }
-
-          var tableElt = $('#' + rosterType);
           var playerRow = $('#' + name);
           playerRow.addClass(classes[charClass]);
 
