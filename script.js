@@ -232,24 +232,33 @@ Object.keys(roster).forEach(function(rosterType) {
 
           var weapon = items.mainHand;
 
-          if (weapon.artifactTraits.length == 0) {
+          if (weapon.artifactAppearanceId != 0 && weapon.artifactTraits.length == 0) {
             weapon = items.offHand;
           }
 
-          var traits = weapon.artifactTraits;
-          var artifactTraitLvl = -3;
-          for (var j = 0; j < traits.length; j++) {
-            artifactTraitLvl += traits[j].rank;
+          var artifactTraitLvl;
+          if (weapon.artifactTraits.length != 0){
+            var traits = weapon.artifactTraits;
+            artifactTraitLvl = -3;
+            for (var j = 0; j < traits.length; j++) {
+              artifactTraitLvl += traits[j].rank;
+            }
+          } else {
+            artifactTraitLvl = 0;
           }
 
           var ilvlWeapon = weapon.itemLevel;
-          var relics = weapon.relics;
 
           var relicsIlvls = []
 
-          for (var j = 0; j < 3; j++) {
-            var relicIlvl = weapon.bonusLists[j+1] - 1472;
-            relicsIlvls.push(relicIlvl);
+          if (weapon.relics.length != 0) {
+            var relics = weapon.relics;
+            for (var j = 0; j < 3; j++) {
+              var relicIlvl = weapon.bonusLists[j+1] - 1472;
+              relicsIlvls.push(relicIlvl);
+            }
+          } else {
+            relicsIlvls = [0, 0, 0]
           }
 
           var tableElt = $('#' + rosterType);
