@@ -154,9 +154,15 @@ for (var j = 0; j < ilvlHeader.length; j++){
     var roster_ = $(event.target).parents("table").attr('id');
     var rosterList = rosterInfo[roster_]
 
-    rosterList.sort(function(first, second){
-      return first.ilvl - second.ilvl;
-    });
+    if (rosterList[0].ilvl < rosterList[rosterList.length-1].ilvl) {
+      rosterList.sort(function(first, second){
+        return second.ilvl - first.ilvl;
+      });
+    } else {
+      rosterList.sort(function(first, second){
+        return first.ilvl - second.ilvl;
+      });
+    }
 
     var children = document.getElementById(roster_).childNodes;
 
