@@ -4,6 +4,7 @@ h1 {
 
 body {
   font-family: 'Cuprum', serif;
+  cursor: default;
 }
 
 #container {
@@ -33,6 +34,9 @@ body {
   justify-content: space-around;
 }
 
+th.ilvl, th.ilvl-weapon, th.weapon-traits {
+  cursor: pointer;
+}
 
 
 table {
