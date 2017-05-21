@@ -84,6 +84,7 @@ var rosterInfo = {
 var stats = ['ilvl', 'ilvl-weapon', 'weapon-traits',
               'relic-1', 'relic-2', 'relic-3'];
 
+var sortable = ['ilvl', 'ilvl-weapon', 'weapon-traits'];
 // manage EN and FR
 
 var translations = {
@@ -148,42 +149,45 @@ langButton.on('mouseup', function(event){
   langButton.html(langButtonLabel[lang]);
 });
 
-var ilvlHeader = $('.ilvl');
-for (var j = 0; j < ilvlHeader.length; j++){
-  $(ilvlHeader[j]).on('mouseup', function(event){
-    var roster_ = $(event.target).parents("table").attr('id');
-    var rosterList = rosterInfo[roster_]
 
-    if (rosterList[0].ilvl < rosterList[rosterList.length-1].ilvl) {
-      rosterList.sort(function(first, second){
-        return second.ilvl - first.ilvl;
-      });
-    } else {
-      rosterList.sort(function(first, second){
-        return first.ilvl - second.ilvl;
-      });
-    }
+for (var l = 0; l < sortable.length; l++)
+{
+  for (var j = 0; j < $('.' + sortable[l]).length; j++){
+    $($('.' + sortable[l])[j]).on('mouseup', function(event){
+      var sortVar = $(event.target).attr('class');
+      var roster_ = $(event.target).parents("table").attr('id');
+      var rosterList = rosterInfo[roster_];
 
-    var children = document.getElementById(roster_).childNodes;
-
-    for (var i = 0; i < rosterList.length; i++) {
-      var info = rosterList[i];
-      var playerRow = document.createElement('tr');
-      playerRow.id = info['player'];
-      playerRow.classList.add(info['charClass']);
-      var name = document.createElement('td');
-      name.textContent = info['player'];
-      playerRow.appendChild(name);
-      for (var k = 0; k < stats.length; k++) {
-        var cell = document.createElement('td');
-        cell.textContent = info[stats[k]];
-        playerRow.appendChild(cell);
+      if (rosterList[0][sortVar] < rosterList[rosterList.length-1][sortVar]) {
+        rosterList.sort(function(first, second){
+          return second[sortVar] - first[sortVar];
+        });
+      } else {
+        rosterList.sort(function(first, second){
+          return first[sortVar] - second[sortVar];
+        });
       }
-      document.getElementById(roster_).replaceChild(playerRow, children[i+2]);
-    }
-  });
+      
+      var children = document.getElementById(roster_).childNodes;
+      for (var i = 0; i < rosterList.length; i++) {
+        var info = rosterList[i];
+        var playerRow = document.createElement('tr');
+        playerRow.id = info['player'];
+        playerRow.classList.add(info['charClass']);
+        var name = document.createElement('td');
+        name.textContent = info['player'];
+        playerRow.appendChild(name);
+        for (var k = 0; k < stats.length; k++) {
+          var cell = document.createElement('td');
+          cell.textContent = info[stats[k]];
+          playerRow.appendChild(cell);
+        }
+        document.getElementById(roster_).replaceChild(playerRow, children[i+2]);
+      }
+    });
+  }
 }
-//
+
 
 function addEmptyCell(row, cl) {
   var cell = document.createElement('td');
