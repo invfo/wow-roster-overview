@@ -1,4 +1,4 @@
-var apiKey = prompt('Enter API key');
+//var apiKey = prompt('Enter API key');
 
 var server = 'Hyjal';
 
@@ -255,11 +255,15 @@ Object.keys(roster).forEach(function(rosterType) {
     var player = rosterPlayers[i];
     addEmptyPlayerRow(player, rosterType);
 
+    /*
     var requestURL = 'https://eu.api.battle.net/wow/character/'
                     + server + '/'
                     + player +
                     '?fields=items&locale=en_GB&apikey='
                     + apiKey;
+                    */
+    var requestURL = '/player/'
+                      + server + '/' + player
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function(event) {
