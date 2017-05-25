@@ -236,7 +236,13 @@ for (var l = 0; l < sortable.length; l++)
         playerRow.id = info['player'];
         playerRow.classList.add(info['charClass']);
         var name = document.createElement('td');
-        name.textContent = info['player'];
+        if (! info.requiredSpecActive) {
+          name.innerHTML = '<span title="active spec is '
+            + info.activeSpec + '">'
+            + info['player'] + ' /!\\</span>';
+        } else {
+          name.innerHTML = info['player'];
+        }
         playerRow.appendChild(name);
         for (var k = 0; k < stats.length; k++) {
           var cell = document.createElement('td');
@@ -275,6 +281,14 @@ Object.keys(roster).forEach(function(rosterType) {
           var data = JSON.parse(this.responseText);
 
           var name = data.name;
+          var requiredSpecActive = data['requiredSpecActive'];
+          if (! requiredSpecActive) {
+            var activeSpec = data['activeSpec'];
+            console.log()
+            $('#' + name).children().eq(0).html(
+              '<span title="active spec is ' + activeSpec + '">'
+              + name + ' /!\\</span>');
+          }
           var charClass = data.class;
           var items = data.items;
           var ilvlEquipped = items.averageItemLevelEquipped;
@@ -292,7 +306,9 @@ Object.keys(roster).forEach(function(rosterType) {
             'weapon-traits': artifactTraitLvl,
             'relic-1': relicsIlvls[0],
             'relic-2': relicsIlvls[1],
-            'relic-3': relicsIlvls[2]
+            'relic-3': relicsIlvls[2],
+            'requiredSpecActive': requiredSpecActive,
+            'activeSpec': activeSpec
           };
 
           for (var key in statValues) {

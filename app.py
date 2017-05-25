@@ -33,8 +33,12 @@ def manage_player(request):
             % (server, player, KEY)
 
     r = requests.get(url)
+    resp = r.json()
+
     active_spec = get_active_spec(server, player, KEY)
-    return r.json()
+    resp['requiredSpecActive'] = required_spec == active_spec
+    resp['activeSpec'] = active_spec
+    return resp
 
 def make_app():
     config = Configurator()
