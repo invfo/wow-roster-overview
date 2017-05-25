@@ -18,52 +18,53 @@ var classes = {
 };
 
 var rosterTank = [
-      'Jaburã',
-      'Immé',
-      'Zeckia'];
+      {'Jaburã': 'Guardian'},
+      {'Immé': 'Protection'},
+      {'Zeckia': 'Brewmaster'}
+    ];
 
 var rosterHeal = [
-      'Síal',
-      'Prixoduron',
-      'Eydeñ',
-      'Miwën',
-      'Arhyä',
-      'Leytere',
-      'Ranashe'
+      {'Síal': 'Holy'},
+      {'Prixoduron': 'Holy'},
+      {'Eydeñ': 'Restoration'},
+      {'Miwën': 'Restoration'},
+      {'Arhyä': 'Restoration'},
+      {'Leytere': 'Restoration'},
+      {'Ranashe': 'Restoration'}
 ];
 
 var rosterCac = [
-      'Wof',
-      'Nilö',
-      'Nahazgul',
-      'Naurthoron',
-      'Klÿnn',
-      'Olympee',
-      'Laethis',
-      'Hellpwn',
-      'Vàren',
-      'Saharl',
-      'Maéror',
-      'Osha',
-      'Amadeusdamus',
-      'Skjoldd',
-      'Triofu'
+      {'Wof': 'Beast Mastery'},
+      {'Nilö': 'Beast Mastery'},
+      {'Nahazgul': 'Feral'},
+      {'Naurthoron': 'Outlaw'},
+      {'Klÿnn': 'Assassination'},
+      {'Olympee': 'Havoc'},
+      {'Laethis': 'Havoc'},
+      {'Hellpwn': 'Havoc'},
+      {'Vàren': 'Unholy'},
+      {'Saharl': 'Enhancement'},
+      {'Maéror': 'Enhancement'},
+      {'Osha': 'Fury'},
+      {'Amadeusdamus': 'Fury'},
+      {'Skjoldd': 'Fury'},
+      {'Triofu': 'Retribution'}
 ];
 
 var rosterMage = [
-      'Twítwí',
-      'Heâven',
-      'Crexie',
-      'Akaliana',
-      'Ëlye',
-      'Bèhémoth',
-      'Pinpön',
-      'Drafy',
-      'Glørung',
-      'Galv',
-      'Azzùraa',
-      'Calendra',
-      'Sosochamy'
+      {'Twítwí': 'Frost'},
+      {'Heâven': 'Arcane'},
+      {'Crexie': 'Arcane'},
+      {'Akaliana': 'Frost'},
+      {'Ëlye': 'Affliction'},
+      {'Bèhémoth': 'Affliction'},
+      {'Pinpön': 'Shadow'},
+      {'Drafy': 'Balance'},
+      {'Glørung': 'Balance'},
+      {'Galv': 'Balance'},
+      {'Azzùraa': 'Elementa'},
+      {'Calendra': 'Elemental'},
+      {'Sosochamy': 'Elemental'}
 ];
 
 
@@ -252,7 +253,7 @@ for (var l = 0; l < sortable.length; l++)
 Object.keys(roster).forEach(function(rosterType) {
   var rosterPlayers = roster[rosterType];
   for (var i = 0; i < rosterPlayers.length; i++) {
-    var player = rosterPlayers[i];
+    var player = Object.keys(rosterPlayers[i])[0];
     addEmptyPlayerRow(player, rosterType);
 
     /*
@@ -263,7 +264,8 @@ Object.keys(roster).forEach(function(rosterType) {
                     + apiKey;
                     */
     var requestURL = '/player/'
-                      + server + '/' + player
+                      + server + '/' + player;
+    console.log(requestURL);
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function(event) {
