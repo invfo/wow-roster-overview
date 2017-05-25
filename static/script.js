@@ -254,6 +254,7 @@ Object.keys(roster).forEach(function(rosterType) {
   var rosterPlayers = roster[rosterType];
   for (var i = 0; i < rosterPlayers.length; i++) {
     var player = Object.keys(rosterPlayers[i])[0];
+    var spec = rosterPlayers[i][player]
     addEmptyPlayerRow(player, rosterType);
 
     /*
@@ -264,7 +265,7 @@ Object.keys(roster).forEach(function(rosterType) {
                     + apiKey;
                     */
     var requestURL = '/player/'
-                      + server + '/' + player;
+                      + server + '/' + player + '/' + spec;
     console.log(requestURL);
     var request = new XMLHttpRequest();
 

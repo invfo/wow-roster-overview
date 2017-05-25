@@ -8,7 +8,6 @@ import requests
 # get yours at https://dev.battle.net
 KEY = ''
 
-#@view_config(route_name='player')
 def manage_player(request):
 
     server = request.matchdict['server']
@@ -20,13 +19,12 @@ def manage_player(request):
             % (server, player, KEY)
 
     r = requests.get(url)
-
     return r.json()
 
 def make_app():
     config = Configurator()
 
-    config.add_route('player', '/player/{server}/{player}')
+    config.add_route('player', '/player/{server}/{player}/{spec}')
     config.add_view(manage_player, route_name='player', renderer='json')
 
     config.add_static_view(name='/', path='./static')
