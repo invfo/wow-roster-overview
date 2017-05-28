@@ -4,9 +4,12 @@ from pyramid.response import Response
 from pyramid.view import view_config
 
 import requests
+import psycopg2
+import json
 
 # get yours at https://dev.battle.net
 KEY = ''
+DB_PASSWORD = ''
 
 
 def get_active_spec(server, player, key):
@@ -21,8 +24,39 @@ def get_active_spec(server, player, key):
                 return e['spec']['name']
 
 
-def manage_player(request):
+# cur.execute('CREATE TABLE roster(id SERIAL PRIMARY KEY NOT NULL, player VARCHAR(30), server VARCHAR(30), spec VARCHAR(20), info VARCHAR(30000))')
 
+def update_player_entry(server, player, spec, data):
+    conn = psycopg2.connect("dbname=solaris-roster user=postgres password=inv2357")
+    cur = conn.cursor()
+    cmd = "SELECT id FROM roster WHERE player = %s AND server = %s AND spec = %s"
+    cur.execute(cmd, (player, server, spec))
+    id = cur.fetchone()
+    if id is not None:
+        cmd = "UPDATE roster SET info = %s WHERE id = %s"
+        cur.execute(cmd, (json.dumps(data), id))
+    else:
+        cmd = "INSERT INTO roster (server, player, spec, info) VALUES (%s, %s, %s, %s)"
+        cur.execute(cmd, (server, player, spec, json.dumps(data)))
+    conn.commit()
+    cur.close()
+    conn.close()
+
+def get_player_entry(server, player, spec):
+    conn = psycopg2.connect("dbname=solaris-roster user=postgres password=%s" % DB_PASSWORD)
+    cur = conn.cursor()
+
+    cmd = "SELECT info FROM roster WHERE server = %s AND player = %s and spec = %s"
+    cur.execute(cmd, (server, player, spec))
+    player_info = cur.fetchone()
+    if player_info is not None:
+        player_info = player_info[0]
+    cur.close()
+    conn.close()
+    return player_info
+
+
+def manage_player(request):
     server = request.matchdict['server']
     player = request.matchdict['player']
     required_spec = request.matchdict['spec']
@@ -33,11 +67,30 @@ def manage_player(request):
             % (server, player, KEY)
 
     r = requests.get(url)
-    resp = r.json()
+    data = r.json()
 
     active_spec = get_active_spec(server, player, KEY)
-    resp['requiredSpecActive'] = required_spec == active_spec
-    resp['activeSpec'] = active_spec
+    update_player_entry(server, player, active_spec, data)
+    required_spec_active = required_spec == active_spec
+
+    if required_spec_active:
+        resp = data
+        resp['requiredSpecActive'] = True
+        resp['activeSpec'] = active_spec
+        resp['readFromDB'] = False
+    else:
+        resp = get_player_entry(server, player, required_spec)
+        if resp != None:
+            resp = json.loads(resp)
+            resp['requiredSpecActive'] = False
+            resp['activeSpec'] = active_spec
+            resp['readFromDB'] = True
+        else:
+            print 'no entry for %s %s' % (player, required_spec)
+            resp = {}
+            resp['requiredSpecActive'] = False
+            resp['activeSpec'] = active_spec
+            resp['readFromDB'] = False
     return resp
 
 def make_app():
