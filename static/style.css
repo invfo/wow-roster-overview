@@ -1,10 +1,26 @@
 h1 {
   text-align: center;
+  color: white;
+}
+
+h2 {
+  text-align: center;
+  color: white;
+}
+
+#banner {
+  display: block;
+  margin: auto;
 }
 
 body {
   font-family: 'Cuprum', serif;
   cursor: default;
+  background: url(background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: top;
 }
 
 #container {
@@ -47,9 +63,14 @@ table {
   border-spacing: 0;
 }
 
+
 td {
   text-align: center;
   border: 1px solid black;
+}
+
+tr {
+  background-color: rgb(64, 67, 78);
 }
 
 th {
