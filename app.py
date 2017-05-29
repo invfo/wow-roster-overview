@@ -6,10 +6,16 @@ from pyramid.view import view_config
 import requests
 import psycopg2
 import json
+import ConfigParser
 
-# get yours at https://dev.battle.net
-KEY = ''
-DB_PASSWORD = ''
+config = ConfigParser.RawConfigParser()
+config.read('credentials.cfg')
+
+KEY = config.get('Blizzard API', 'KEY')
+DB_HOST = config.get('Database', 'host')
+DB_NAME = config.get('Database', 'name')
+DB_USER = config.get('Database', 'user')
+DB_PASSWORD = config.get('Database', 'password')
 
 
 def get_active_spec(server, player, key):
@@ -27,7 +33,8 @@ def get_active_spec(server, player, key):
 # cur.execute('CREATE TABLE roster(id SERIAL PRIMARY KEY NOT NULL, player VARCHAR(30), server VARCHAR(30), spec VARCHAR(20), info VARCHAR(30000))')
 
 def update_player_entry(server, player, spec, data):
-    conn = psycopg2.connect("dbname=solaris-roster user=postgres password=inv2357")
+    conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" \
+        % (DB_HOST, DB_NAME, DB_USER, DB_PASSWORD))
     cur = conn.cursor()
     cmd = "SELECT id FROM roster WHERE player = %s AND server = %s AND spec = %s"
     cur.execute(cmd, (player, server, spec))
@@ -75,20 +82,19 @@ def manage_player(request):
 
     if required_spec_active:
         resp = data
-        resp['requiredSpecActive'] = True
+        resp['requiredSpecActive'] = required_spec_active
         resp['activeSpec'] = active_spec
         resp['readFromDB'] = False
     else:
         resp = get_player_entry(server, player, required_spec)
         if resp != None:
             resp = json.loads(resp)
-            resp['requiredSpecActive'] = False
+            resp['requiredSpecActive'] = required_spec_active
             resp['activeSpec'] = active_spec
             resp['readFromDB'] = True
         else:
-            print 'no entry for %s %s' % (player, required_spec)
-            resp = {}
-            resp['requiredSpecActive'] = False
+            resp = data
+            resp['requiredSpecActive'] = required_spec_active
             resp['activeSpec'] = active_spec
             resp['readFromDB'] = False
     return resp
