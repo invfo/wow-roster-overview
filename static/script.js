@@ -312,17 +312,31 @@ Object.keys(roster).forEach(function(rosterType) {
           var playerRow = $('#' + name);
           playerRow.addClass(classes[charClass]);
 
-          var statValues = {
-            'ilvl': ilvlEquipped,
-            'ilvl-weapon': ilvlWeapon,
-            'weapon-traits': artifactTraitLvl,
-            'relic-1': relicsIlvls[0],
-            'relic-2': relicsIlvls[1],
-            'relic-3': relicsIlvls[2],
-            'requiredSpecActive': requiredSpecActive,
-            'activeSpec': activeSpec,
-            'readFromDB': readFromDB
-          };
+          if (! requiredSpecActive && ! readFromDB) {
+            var statValues = {
+              'ilvl': 'N/A',
+              'ilvl-weapon': 'N/A',
+              'weapon-traits': 'N/A',
+              'relic-1': 'N/A',
+              'relic-2': 'N/A',
+              'relic-3': 'N/A',
+              'requiredSpecActive': requiredSpecActive,
+              'activeSpec': activeSpec,
+              'readFromDB': readFromDB
+            };
+          } else {
+            var statValues = {
+              'ilvl': ilvlEquipped,
+              'ilvl-weapon': ilvlWeapon,
+              'weapon-traits': artifactTraitLvl,
+              'relic-1': relicsIlvls[0],
+              'relic-2': relicsIlvls[1],
+              'relic-3': relicsIlvls[2],
+              'requiredSpecActive': requiredSpecActive,
+              'activeSpec': activeSpec,
+              'readFromDB': readFromDB
+            };
+          }
 
           for (var key in statValues) {
             updateCell(name, key, statValues[key]);
