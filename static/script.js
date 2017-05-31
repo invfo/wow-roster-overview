@@ -222,11 +222,27 @@ for (var l = 0; l < sortable.length; l++)
 
       if (rosterList[0][sortVar] < rosterList[rosterList.length-1][sortVar]) {
         rosterList.sort(function(first, second){
-          return second[sortVar] - first[sortVar];
+          if (first[sortVar] == 'N/A') {
+            return second[sortVar];
+          } else {
+            if (second[sortVar] == 'N/A') {
+              return  -first[sortVar];
+            } else {
+                return second[sortVar] - first[sortVar];
+            }
+          }
         });
       } else {
         rosterList.sort(function(first, second){
-          return first[sortVar] - second[sortVar];
+          if (first[sortVar] == 'N/A') {
+            return -second[sortVar];
+          } else {
+            if (second[sortVar] == 'N/A') {
+              return  first[sortVar];
+            } else {
+                return first[sortVar] - second[sortVar];
+            }
+          }
         });
       }
 
