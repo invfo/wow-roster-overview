@@ -50,7 +50,8 @@ def update_player_entry(server, player, spec, data):
     conn.close()
 
 def get_player_entry(server, player, spec):
-    conn = psycopg2.connect("dbname=solaris-roster user=postgres password=%s" % DB_PASSWORD)
+    conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" \
+        % (DB_HOST, DB_NAME, DB_USER, DB_PASSWORD))
     cur = conn.cursor()
 
     cmd = "SELECT info FROM roster WHERE server = %s AND player = %s and spec = %s"
