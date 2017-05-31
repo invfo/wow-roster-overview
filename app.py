@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pyramid.config import Configurator
 from pyramid.response import Response
 
@@ -87,11 +88,13 @@ def manage_player(request):
     else:
         resp = get_player_entry(server, player, required_spec)
         if resp != None:
+            print 'Retrieved from database: ', player.encode('utf-8'), required_spec
             resp = json.loads(resp)
             resp['requiredSpecActive'] = required_spec_active
             resp['activeSpec'] = active_spec
             resp['readFromDB'] = True
         else:
+            print 'Unable to find in database: ', player.encode('utf-8'), required_spec
             resp = data
             resp['requiredSpecActive'] = required_spec_active
             resp['activeSpec'] = active_spec
