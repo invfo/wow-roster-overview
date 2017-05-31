@@ -6,16 +6,14 @@ from pyramid.view import view_config
 import requests
 import psycopg2
 import json
-import ConfigParser
+import os
 
-config = ConfigParser.RawConfigParser()
-config.read('credentials.cfg')
 
-KEY = config.get('Blizzard API', 'KEY')
-DB_HOST = config.get('Database', 'host')
-DB_NAME = config.get('Database', 'name')
-DB_USER = config.get('Database', 'user')
-DB_PASSWORD = config.get('Database', 'password')
+KEY         = os.environ['BLIZZARD_KEY']
+DB_HOST     = os.environ['DB_HOST']
+DB_NAME     = os.environ['DB_NAME']
+DB_USER     = os.environ['DB_USER']
+DB_PASSWORD = os.environ['DB_PASSWORD']
 
 
 def get_active_spec(server, player, key):
