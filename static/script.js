@@ -238,9 +238,14 @@ for (var l = 0; l < sortable.length; l++)
         playerRow.classList.add(info['charClass']);
         var name = document.createElement('td');
         if (! info.requiredSpecActive) {
-          name.innerHTML = '<span title="active spec is '
-            + info.activeSpec + '">'
-            + info['player'] + ' /!\\</span>';
+          if (info.readFromDB) {
+            name.innerHTML = '<span title="info taken from local database">'
+            + info.player + ' /!\\</span>';
+          } else {
+            name.innerHTML = '<span title="active spec is '
+              + info.activeSpec + '">'
+              + info['player'] + ' /!!\\</span>';
+          }
         } else {
           name.innerHTML = info['player'];
         }
@@ -285,10 +290,16 @@ Object.keys(roster).forEach(function(rosterType) {
           var requiredSpecActive = data['requiredSpecActive'];
           if (! requiredSpecActive) {
             var activeSpec = data['activeSpec'];
-            console.log()
-            $('#' + name).children().eq(0).html(
-              '<span title="active spec is ' + activeSpec + '">'
-              + name + ' /!\\</span>');
+            var readFromDB = data.readFromDB;
+            if (readFromDB) {
+              $('#' + name).children().eq(0).html(
+                '<span title="info taken from local database">'
+                + name + ' /!\\</span>');
+            } else {
+                $('#' + name).children().eq(0).html(
+                '<span title="active spec is ' + activeSpec + '">'
+                + name + ' /!!\\</span>');
+            }
           }
           var charClass = data.class;
           var items = data.items;
@@ -309,7 +320,8 @@ Object.keys(roster).forEach(function(rosterType) {
             'relic-2': relicsIlvls[1],
             'relic-3': relicsIlvls[2],
             'requiredSpecActive': requiredSpecActive,
-            'activeSpec': activeSpec
+            'activeSpec': activeSpec,
+            'readFromDB': readFromDB
           };
 
           for (var key in statValues) {
