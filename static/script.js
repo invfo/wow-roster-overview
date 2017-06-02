@@ -18,7 +18,6 @@ var classes = {
 };
 
 var rosterTank = [
-      {'Jaburã': 'Guardian'},
       {'Immé': 'Protection'},
       {'Zeckia': 'Brewmaster'},
       {'Hyübis': 'Vengeance'}
@@ -31,7 +30,8 @@ var rosterHeal = [
       {'Miwën': 'Restoration'},
       {'Arhyä': 'Restoration'},
       {'Leytere': 'Restoration'},
-      {'Ranashe': 'Restoration'}
+      {'Ranashe': 'Restoration'},
+      {'Jaburã': 'Restoration'}
 ];
 
 var rosterCac = [
@@ -49,7 +49,8 @@ var rosterCac = [
       {'Osha': 'Fury'},
       {'Amadeusdamus': 'Fury'},
       {'Skjoldd': 'Fury'},
-      {'Triofu': 'Retribution'}
+      {'Triofu': 'Retribution'},
+      {'Elpwn': 'Retribution'}
 ];
 
 var rosterMage = [
@@ -60,6 +61,7 @@ var rosterMage = [
       {'Ëlye': 'Affliction'},
       {'Bèhémoth': 'Affliction'},
       {'Pinpön': 'Shadow'},
+      {'Hàdês': 'Shadow'},
       {'Drafy': 'Balance'},
       {'Glørung': 'Balance'},
       {'Galv': 'Balance'},
