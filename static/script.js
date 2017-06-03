@@ -187,7 +187,7 @@ function addEmptyCell(row, cl) {
 }
 
 function updateCell(name, cl, value) {
-  $('#' + name + ' td.' + cl).text((value == -1) ? 'N/A' : value);
+  $('#' + name + ' td.' + cl).text((value == -1) ? 'n/a' : value);
 }
 
 function calculateArtifactTraitLvl(weapon) {
@@ -292,7 +292,7 @@ for (var l = 0; l < sortable.length; l++)
         playerRow.appendChild(name);
         for (var k = 0; k < stats.length; k++) {
           var cell = document.createElement('td');
-          cell.textContent = (info[stats[k]] == -1) ? 'N/A' : info[stats[k]];
+          cell.textContent = (info[stats[k]] == -1) ? 'n/a' : info[stats[k]];
           playerRow.appendChild(cell);
         }
         $('#' + roster_ + ' table.roster tbody').children().eq(i).replaceWith(playerRow);
