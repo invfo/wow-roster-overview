@@ -189,7 +189,7 @@ function addEmptyPlayerRow(player, rosterType) {
   for (var j = 0; j < stats.length; j++) {
     addEmptyCell(playerRow, stats[j]);
   }
-  $('#' + rosterType).append(playerRow);
+  $('#' + rosterType + ' table').append(playerRow);
 }
 
 function getWeapon(items) {
@@ -219,7 +219,7 @@ for (var l = 0; l < sortable.length; l++)
   for (var j = 0; j < $('.' + sortable[l]).length; j++){
     $($('.' + sortable[l])[j]).on('mouseup', function(event){
       var sortVar = $(event.target).attr('class');
-      var roster_ = $(event.target).parents("table").attr('id');
+      var roster_ = $(event.target).parents("div").attr('id');
       var rosterList = rosterInfo[roster_];
 
       if (rosterList[0][sortVar] < rosterList[rosterList.length-1][sortVar]) {
@@ -257,7 +257,7 @@ for (var l = 0; l < sortable.length; l++)
           cell.textContent = (info[stats[k]] == -1) ? 'N/A' : info[stats[k]];
           playerRow.appendChild(cell);
         }
-        $('#' + roster_ + ' tbody').children().eq(i).replaceWith(playerRow);
+        $('#' + roster_ + ' table.roster tbody').children().eq(i).replaceWith(playerRow);
       }
     });
   }
