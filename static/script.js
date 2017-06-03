@@ -149,7 +149,7 @@ function addEmptyCell(row, cl) {
 }
 
 function updateCell(name, cl, value) {
-  $('#' + name + ' td.' + cl).text(value);
+  $('#' + name + ' td.' + cl).text((value == -1) ? 'N/A' : value);
 }
 
 function calculateArtifactTraitLvl(weapon) {
@@ -224,27 +224,11 @@ for (var l = 0; l < sortable.length; l++)
 
       if (rosterList[0][sortVar] < rosterList[rosterList.length-1][sortVar]) {
         rosterList.sort(function(first, second){
-          if (first[sortVar] == 'N/A') {
-            return second[sortVar];
-          } else {
-            if (second[sortVar] == 'N/A') {
-              return  -first[sortVar];
-            } else {
-                return second[sortVar] - first[sortVar];
-            }
-          }
+          return second[sortVar] - first[sortVar];
         });
       } else {
         rosterList.sort(function(first, second){
-          if (first[sortVar] == 'N/A') {
-            return -second[sortVar];
-          } else {
-            if (second[sortVar] == 'N/A') {
-              return  first[sortVar];
-            } else {
-                return first[sortVar] - second[sortVar];
-            }
-          }
+          return first[sortVar] - second[sortVar];
         });
       }
 
@@ -270,7 +254,7 @@ for (var l = 0; l < sortable.length; l++)
         playerRow.appendChild(name);
         for (var k = 0; k < stats.length; k++) {
           var cell = document.createElement('td');
-          cell.textContent = info[stats[k]];
+          cell.textContent = (info[stats[k]] == -1) ? 'N/A' : info[stats[k]];
           playerRow.appendChild(cell);
         }
         $('#' + roster_).children().eq(i+1).replaceWith(playerRow);
@@ -332,12 +316,12 @@ Object.keys(roster).forEach(function(rosterType) {
 
           if (! requiredSpecActive && ! readFromDB) {
             var statValues = {
-              'ilvl': 'N/A',
-              'ilvl-weapon': 'N/A',
-              'weapon-traits': 'N/A',
-              'relic-1': 'N/A',
-              'relic-2': 'N/A',
-              'relic-3': 'N/A',
+              'ilvl': -1,
+              'ilvl-weapon': -1,
+              'weapon-traits': -1,
+              'relic-1': -1,
+              'relic-2': -1,
+              'relic-3': -1,
               'requiredSpecActive': requiredSpecActive,
               'activeSpec': activeSpec,
               'readFromDB': readFromDB
