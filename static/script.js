@@ -89,6 +89,44 @@ var stats = ['ilvl', 'ilvl-weapon', 'weapon-traits',
               'relic-1', 'relic-2', 'relic-3'];
 
 var sortable = ['ilvl', 'ilvl-weapon', 'weapon-traits'];
+
+var meanValues = {
+  'roster-tank': {
+    'ilvl': {'value': 0, 'count': 0},
+    'ilvl-weapon': {'value': 0, 'count': 0},
+    'weapon-traits': {'value': 0, 'count': 0}
+  },
+  'roster-heal': {
+    'ilvl': {'value': 0, 'count': 0},
+    'ilvl-weapon': {'value': 0, 'count': 0},
+    'weapon-traits': {'value': 0, 'count': 0}
+  },
+  'roster-cac': {
+    'ilvl': {'value': 0, 'count': 0},
+    'ilvl-weapon': {'value': 0, 'count': 0},
+    'weapon-traits': {'value': 0, 'count': 0}
+  },
+  'roster-mage': {
+    'ilvl': {'value': 0, 'count': 0},
+    'ilvl-weapon': {'value': 0, 'count': 0},
+    'weapon-traits': {'value': 0, 'count': 0}
+  }
+}
+
+function updateMeanValue(rosterType, valueType, addedValue) {
+  if (addedValue == -1) {
+    return;
+  }
+  var count = meanValues[rosterType][valueType].count;
+  var total = count * meanValues[rosterType][valueType].value;
+  count += 1;
+  var newValue = (total + addedValue) / count;
+  meanValues[rosterType][valueType].value = newValue;
+  meanValues[rosterType][valueType].count = count;
+  console.log('new ' + valueType + '= ' + newValue);
+  $('#' + rosterType + ' table.mean-values td.' + valueType).text(
+    Math.floor(newValue));
+}
 // manage EN and FR
 
 var translations = {
@@ -189,7 +227,7 @@ function addEmptyPlayerRow(player, rosterType) {
   for (var j = 0; j < stats.length; j++) {
     addEmptyCell(playerRow, stats[j]);
   }
-  $('#' + rosterType + ' table').append(playerRow);
+  $('#' + rosterType + ' table.roster').append(playerRow);
 }
 
 function getWeapon(items) {
@@ -342,6 +380,10 @@ Object.keys(roster).forEach(function(rosterType) {
 
           for (var key in statValues) {
             updateCell(name, key, statValues[key]);
+
+            if (key == 'ilvl' || key == 'ilvl-weapon' || key == 'weapon-traits') {
+              updateMeanValue(rosterType, key, statValues[key]);
+            }
           }
 
           statValues.player = name;

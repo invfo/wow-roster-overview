@@ -58,7 +58,7 @@ th.ilvl, th.ilvl-weapon, th.weapon-traits {
 table {
   border: 1px solid black;
   width: 600px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   border-collapse: collapse;
   border-spacing: 0;
 }
@@ -76,6 +76,19 @@ tr {
 th {
   background-color: black;
   color: white;
+}
+
+table.mean-values tr{
+  color: white;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+table.mean-values td{
+  border: none;
+}
+
+.mean-values {
+  border: none;
 }
 
 .warrior {
