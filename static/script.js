@@ -189,7 +189,7 @@ function addEmptyPlayerRow(player, rosterType) {
   for (var j = 0; j < stats.length; j++) {
     addEmptyCell(playerRow, stats[j]);
   }
-  document.getElementById(rosterType).appendChild(playerRow);
+  $('#' + rosterType).append(playerRow);
 }
 
 function getWeapon(items) {
@@ -257,7 +257,7 @@ for (var l = 0; l < sortable.length; l++)
           cell.textContent = (info[stats[k]] == -1) ? 'N/A' : info[stats[k]];
           playerRow.appendChild(cell);
         }
-        $('#' + roster_).children().eq(i+1).replaceWith(playerRow);
+        $('#' + roster_ + ' tbody').children().eq(i).replaceWith(playerRow);
       }
     });
   }
