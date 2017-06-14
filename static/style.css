@@ -91,7 +91,7 @@ table.mean-values td{
   border: none;
 }
 
-a:visited{
+a:visited, a:link{
   color: white;
 }
 
