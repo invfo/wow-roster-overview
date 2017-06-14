@@ -44,7 +44,7 @@ def update_player_entry(server, player, spec, data):
 def get_player_entry(server, player, spec):
     db = Database()
     db.connect()
-    player_info = db.get_player_info()
+    player_info = db.get_player_info(player, server, spec)
     db.disconnect()
     if player_info is not None:
         player_info = player_info[0]
