@@ -29,7 +29,7 @@ def add_to_roster(player):
     db.connect()
     db.add_player(player)
     db.disconnect()
-    print "added %s" % player.name
+    print "added %s" % player.name.encode("utf-8")
 
 def retrieve_roster_players(roster_type):
     db = Database()
@@ -72,7 +72,7 @@ def admin(request):
         roster_type = request.POST.getone('roster-type')
 
         player = Player(name, class_name, spec, roster_type)
-        print "adding", name
+        print "adding", name.encode("utf-8")
         add_to_roster(player)
         print 'redirecting'
         return HTTPFound('/admin')
