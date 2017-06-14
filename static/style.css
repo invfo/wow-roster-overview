@@ -54,6 +54,10 @@ th.ilvl, th.ilvl-weapon, th.weapon-traits {
   cursor: pointer;
 }
 
+th.spec {
+  width: 300px;
+}
+
 
 table {
   border: 1px solid black;
@@ -85,6 +89,10 @@ table.mean-values tr{
 
 table.mean-values td{
   border: none;
+}
+
+a:visited{
+  color: white;
 }
 
 .mean-values {

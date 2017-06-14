@@ -17,6 +17,8 @@ var classes = {
   12: 'demon-hunter'
 };
 
+
+/*
 var rosterTank = [
       {'Immé': 'Protection'},
       {'Zeckia': 'Brewmaster'},
@@ -69,14 +71,30 @@ var rosterMage = [
       {'Calendra': 'Elemental'},
       {'Sosochamy': 'Elemental'}
 ];
-
+*/
 
 var roster = {
-  'roster-tank': rosterTank,
-  'roster-heal': rosterHeal,
-  'roster-cac': rosterCac,
-  'roster-mage': rosterMage
+  'roster-tank': null,
+  'roster-heal': null,
+  'roster-cac': null,
+  'roster-mage': null
 };
+
+
+Object.keys(roster).forEach(function(key) {
+  var xhr = new XMLHttpRequest()
+  var requestUrl = '/admin/' + key.replace('roster-', '');
+  xhr.onreadystatechange = function(event) {
+    if (this.readyState == XMLHttpRequest.DONE) {
+      if (this.status === 200) {
+        roster[key] = JSON.parse(this.responseText).players;
+      }
+    }
+  };
+  xhr.open('GET', requestUrl, false);
+  xhr.send(null);
+});
+
 
 var rosterInfo = {
   'roster-tank': [],
@@ -123,7 +141,6 @@ function updateMeanValue(rosterType, valueType, addedValue) {
   var newValue = (total + addedValue) / count;
   meanValues[rosterType][valueType].value = newValue;
   meanValues[rosterType][valueType].count = count;
-  console.log('new ' + valueType + '= ' + newValue);
   $('#' + rosterType + ' table.mean-values td.' + valueType).text(
     Math.floor(newValue));
 }
@@ -305,8 +322,8 @@ for (var l = 0; l < sortable.length; l++)
 Object.keys(roster).forEach(function(rosterType) {
   var rosterPlayers = roster[rosterType];
   for (var i = 0; i < rosterPlayers.length; i++) {
-    var player = Object.keys(rosterPlayers[i])[0];
-    var spec = rosterPlayers[i][player]
+    var player = rosterPlayers[i].name;
+    var spec = rosterPlayers[i].spec;
     addEmptyPlayerRow(player, rosterType);
 
     /*
@@ -318,7 +335,6 @@ Object.keys(roster).forEach(function(rosterType) {
                     */
     var requestURL = '/player/'
                       + server + '/' + player + '/' + spec;
-    console.log(requestURL);
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function(event) {

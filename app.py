@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from pyramid.config import Configurator
-from pyramid.response import Response
-
+from pyramid.response import Response, FileResponse
 from pyramid.view import view_config
+
+from admin import admin, get_roster, delete_player
+from database import Database
 
 import requests
 import psycopg2
@@ -10,11 +12,7 @@ import json
 import os
 
 
-KEY         = os.environ['BLIZZARD_KEY']
-DB_HOST     = os.environ['DB_HOST']
-DB_NAME     = os.environ['DB_NAME']
-DB_USER     = os.environ['DB_USER']
-DB_PASSWORD = os.environ['DB_PASSWORD']
+KEY = os.environ['BLIZZARD_KEY']
 
 
 def get_active_spec(server, player, key):
@@ -30,38 +28,32 @@ def get_active_spec(server, player, key):
 
 
 # cur.execute('CREATE TABLE roster(id SERIAL PRIMARY KEY NOT NULL, player VARCHAR(30), server VARCHAR(30), spec VARCHAR(20), info VARCHAR(30000))')
+# cur.execute('CREATE TABLE roster_list(id SERIAL PRIMARY KEY NOT NULL, player VARCHAR(30), server VARCHAR(30), spec VARCHAR(20), roster VARCHAR(10), class VARCHAR(20))')
 
 def update_player_entry(server, player, spec, data):
-    conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" \
-        % (DB_HOST, DB_NAME, DB_USER, DB_PASSWORD))
-    cur = conn.cursor()
-    cmd = "SELECT id FROM roster WHERE player = %s AND server = %s AND spec = %s"
-    cur.execute(cmd, (player, server, spec))
-    id = cur.fetchone()
+    db = Database()
+    db.connect()
+    id = db.get_player_id(player, server, spec) # use Player class
+
     if id is not None:
-        cmd = "UPDATE roster SET info = %s WHERE id = %s"
-        cur.execute(cmd, (json.dumps(data), id))
+        db.update_player(id, data)
     else:
-        cmd = "INSERT INTO roster (server, player, spec, info) VALUES (%s, %s, %s, %s)"
-        cur.execute(cmd, (server, player, spec, json.dumps(data)))
-    conn.commit()
-    cur.close()
-    conn.close()
+        db.add_player_with_info(server, player, spec, data)
+    db.disconnect()
 
 def get_player_entry(server, player, spec):
-    conn = psycopg2.connect("host=%s dbname=%s user=%s password=%s" \
-        % (DB_HOST, DB_NAME, DB_USER, DB_PASSWORD))
-    cur = conn.cursor()
-
-    cmd = "SELECT info FROM roster WHERE server = %s AND player = %s and spec = %s"
-    cur.execute(cmd, (server, player, spec))
-    player_info = cur.fetchone()
+    db = Database()
+    db.connect()
+    player_info = db.get_player_info()
+    db.disconnect()
     if player_info is not None:
         player_info = player_info[0]
-    cur.close()
-    conn.close()
     return player_info
 
+
+# -----
+# views
+# -----
 
 def manage_player(request):
     server = request.matchdict['server']
@@ -101,8 +93,18 @@ def manage_player(request):
             resp['readFromDB'] = False
     return resp
 
+
 def make_app():
     config = Configurator()
+
+    config.add_route('admin', '/admin')
+    config.add_view(admin, route_name='admin')
+
+    config.add_route('get_roster', '/admin/{roster_type}')
+    config.add_view(get_roster, route_name='get_roster', renderer='json')
+
+    config.add_route('delete_player', '/admin/delete/{roster}/{player}/{spec}')
+    config.add_view(delete_player, route_name='delete_player')
 
     config.add_route('player', '/player/{server}/{player}/{spec}')
     config.add_view(manage_player, route_name='player', renderer='json')
