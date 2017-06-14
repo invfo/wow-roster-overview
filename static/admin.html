@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Inknut+Antiqua|Cuprum" rel="stylesheet">
+</head>
+<body>
+  <h1>Admin interface</h1>
+
+<div id="container">
+  <div class="row">
+    <div id="heal">
+      <h2>Roster Heal</h2>
+      <table>
+        <thead>
+          <tr>
+            <th class="player">Player</th>
+            <th class="spec">Spec</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <form method="POST" action="/admin">
+        <input type="text" name="player" placeholder="Player" required/>
+        <select class="class" name="class" required>
+          <option>Druid</option>
+          <option>Monk</option>
+          <option>Paladin</option>
+          <option>Priest</option>
+          <option>Shaman</option>
+        </select>
+        <select class="spec" name="spec" required>
+        </select>
+        <input type="hidden" name="roster-type" value="heal">
+        <input type="submit" value="Add"/>
+      </form>
+    </div>
+
+    <div id="tank">
+      <h2>Roster Tank</h2>
+      <table>
+        <thead>
+          <tr>
+            <th class="player">Player</th>
+            <th class="spec">Spec</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <form method="POST" action="/admin">
+        <input type="text" name="player" placeholder="Player" required/>
+        <select class="class" name="class" required>
+          <option>Druid</option>
+          <option>Monk</option>
+          <option>Paladin</option>
+          <option>Warrior</option>
+          <option>Demon Hunter</option>
+          <option>
+            Death Knight
+          </option>
+        </select>
+        <select class="spec" name="spec" required>
+        </select>
+        <input type="hidden" name="roster-type" value="tank">
+        <input type="submit" value="Add"/>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div id="mage">
+      <h2>Roster Mage</h2>
+      <table>
+        <thead>
+          <tr>
+            <th class="player">Player</th>
+            <th class="spec">Spec</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <form method="POST" action="/admin">
+        <input type="text" name="player" placeholder="Player" required/>
+        <select class="class" name="class" required>
+          <option>Druid</option>
+          <option>Mage</option>
+          <option>Priest</option>
+          <option>Warlock</option>
+          <option>Shaman</option>
+        </select>
+        <select class="spec" name="spec" required>
+        </select>
+        <input type="hidden" name="roster-type" value="mage">
+        <input type="submit" value="Add"/>
+      </form>
+    </div>
+
+    <div id="cac">
+      <h2>Roster Cac</h2>
+      <table>
+        <thead>
+          <tr>
+            <th class="player">Player</th>
+            <th class="spec">Spec</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <form method="POST" action="/admin">
+        <input type="text" name="player" placeholder="Player" required/>
+        <select class="class" name="class" required>
+          <option>Druid</option>
+          <option>Monk</option>
+          <option>Paladin</option>
+          <option>Warrior</option>
+          <option>Shaman</option>
+          <option>Death Knight</option>
+          <option>
+            Demon Hunter
+          </option>
+          <option>Hunter</option>
+          <option>
+            Rogue
+          </option>
+        </select>
+        <select class="spec" name="spec" required>
+        </select>
+        <input type="hidden" name="roster-type" value="cac">
+        <input type="submit" value="Add"/>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<script src='http://code.jquery.com/jquery.js'></script>
+<script src='admin.js'></script>
+</body>
+
+</html>
