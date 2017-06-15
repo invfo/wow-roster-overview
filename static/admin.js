@@ -9,7 +9,7 @@ var specs = {
   "Demon Hunter": ["Havoc", "Vengeance"],
   "Death Knight": ["Blood", "Frost", "Unholy"],
   "Warrior": ["Protection", "Arms", "Fury"],
-  "Rogue": ["Subtlety", "Assasination", "Outlaw"],
+  "Rogue": ["Subtlety", "Assassination", "Outlaw"],
   "Hunter": ["Survival", "Beast Mastery", "Marksmanship"],
   "Mage": ["Fire", "Arcane", "Frost"],
   "Warlock": ["Affliction", "Destruction", "Demonology"]
