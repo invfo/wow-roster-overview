@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/static/wow_roster_overview/style.css" />
   <link href="https://fonts.googleapis.com/css?family=Inknut+Antiqua|Cuprum" rel="stylesheet">
 </head>
 <body>
@@ -24,6 +24,7 @@
       </table>
 
       <form method="POST" action="/admin">
+        {% csrf_token %}
         <input type="text" name="player" placeholder="Player" required/>
         <select class="class" name="class" required>
           <option>Druid</option>
@@ -53,6 +54,7 @@
       </table>
 
       <form method="POST" action="/admin">
+        {% csrf_token %}
         <input type="text" name="player" placeholder="Player" required/>
         <select class="class" name="class" required>
           <option>Druid</option>
@@ -87,6 +89,7 @@
       </table>
 
       <form method="POST" action="/admin">
+        {% csrf_token %}
         <input type="text" name="player" placeholder="Player" required/>
         <select class="class" name="class" required>
           <option>Druid</option>
@@ -116,6 +119,7 @@
       </table>
 
       <form method="POST" action="/admin">
+        {% csrf_token %}
         <input type="text" name="player" placeholder="Player" required/>
         <select class="class" name="class" required>
           <option>Druid</option>
@@ -146,7 +150,7 @@
 </div>
 
 <script src='http://code.jquery.com/jquery.js'></script>
-<script src='admin.js'></script>
+<script src='/static/wow_roster_overview/admin.js'></script>
 </body>
 
 </html>
