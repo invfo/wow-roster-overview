@@ -37,13 +37,13 @@ def manage_player(request, server, player, required_spec):
     else:
         resp = get_player_entry(server, player, required_spec)
         if resp != None:
-            print 'Retrieved from database: ', player.encode('utf-8'), required_spec
+            #print 'Retrieved from database: ', player.encode('utf-8'), required_spec
             resp = json.loads(resp)
             resp['requiredSpecActive'] = required_spec_active
             resp['activeSpec'] = active_spec
             resp['readFromDB'] = True
         else:
-            print 'Unable to find in database: ', player.encode('utf-8'), required_spec
+            #print 'Unable to find in database: ', player.encode('utf-8'), required_spec
             resp = data
             resp['requiredSpecActive'] = required_spec_active
             resp['activeSpec'] = active_spec
@@ -61,9 +61,8 @@ def admin(request):
         roster_type = request.POST['roster-type']
 
         player = Player(name, class_name, spec, roster_type)
-        print "adding", name.encode("utf-8")
+        #print "adding", name.encode("utf-8")
         add_to_roster(player)
-        print 'redirecting'
         template = loader.get_template('wow_roster_overview/admin.html')
         return HttpResponseRedirect('/admin')
 
@@ -162,4 +161,4 @@ def add_to_roster(player):
     db.connect()
     db.add_player(player)
     db.disconnect()
-    print "added %s" % player.name.encode("utf-8")
+    #print "added %s" % player.name.encode("utf-8")
