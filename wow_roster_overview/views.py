@@ -8,6 +8,7 @@ from django.template import loader
 from database import Database
 import os
 import requests
+import json
 
 KEY = os.environ['BLIZZARD_KEY']
 
