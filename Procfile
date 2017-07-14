@@ -1,1 +1,1 @@
-web: gunicorn -w 5 wsgiapp
+web: gunicorn wow_roster_overview.wsgi --log-file -
